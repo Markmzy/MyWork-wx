@@ -3,8 +3,8 @@
 		<camera device-position="front" flash="off" class="camera" @error="error" v-if="showCamera"></camera>
 		<image mode="widthFix" class="image" :src="photoPath" v-if="showImage"></image>
 		<view class="operate-container">
-			<button type="primary" class="btn" @tap="takePic" disabled="!canCheckin">{{btnText}}</button>
-			<button type="warn" class="btn" @tap="retakePic" disabled="!canCheckin">重拍</button>
+			<button type="primary" class="btn" @tap="clickBtn" :disabled="!canCheckin">{{btnText}}</button>
+			<button type="warn" class="btn" @tap="retakePic" :disabled="!canCheckin">重拍</button>
 		</view>
 		<view class="notice-container">
 			<text class="notice">注意事项</text>
@@ -18,15 +18,41 @@
 	export default {
 		data() {
 			return {
-				canCheckin: false,
+				canCheckin: true,
 				photoPath: '',
-				btnText: '拍照',
+				btnText: "拍照",
 				showCamera: true,
 				showImage: false
 			}
 		},
 		methods: {
+			clickBtn:function(){
+				let that = this;
+				if(that.btnText == "拍照"){
+					let ctx = uni.createCameraContext()
+					ctx.takePhoto({
+						quality:"high",
+						success:function(resp){
+							console.log(resp.tempImagePath)
+							that.photoPath = resp.tempImagePath
+							that.showImage = true
+							that.showCamera = false
+							that.btnText = "签到"
+						}
+					})
+					
+				}
+				else{ // TODO：签到功能
+					
+				}
+			},
 			
+			retakePic:function(){
+				let that=this;
+				that.showImage = false
+				that.showCamera = true
+				that.btnText = "拍照"
+			}
 		}
 	}
 </script>

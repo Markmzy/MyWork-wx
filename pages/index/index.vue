@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<swiper circular="true" autoplay="true" interval="5000" duration="1000" indicator-dots="indicatorDots"
+		<swiper circular="true" autoplay="true" interval="5000" duration="500" indicator-dots="indicatorDots"
 			class="swiper">
 			<swiper-item>
 				<image mode="widthFix"
@@ -104,7 +104,12 @@
 
 		},
 		methods: {
-			
+			toPage:function(name, url){
+				//TODO: 验证用户权限
+				uni.navigateTo({
+					url:url
+				})
+			}
 		}
 	}
 </script>
