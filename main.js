@@ -14,6 +14,9 @@ let baseUrl = "http://localhost:8080/mywork"
 Vue.prototype.url = {
 	register: baseUrl + "/user/register",
 	login: baseUrl + "/user/login",
+	checkin: baseUrl + "/checkin/checkin",
+	createFaceModel: baseUrl + "/checkin/createFaceModel",
+	validCanCheckIn: baseUrl + "/checkin/validCanCheckIn",	
 }
 
 Vue.prototype.ajax = function(url, method, data, fun) {
