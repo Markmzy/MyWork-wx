@@ -10,11 +10,13 @@
 			<text class="notice">注意事项</text>
 			<text class="desc">拍照签到的时候，必须要拍摄自己的正面照片，侧面照片会导致无法识别。另外，拍照的时候不要戴墨镜或者帽子，避免影响拍照签到的准确度。</text>
 		</view>
-		
+
 	</view>
 </template>
 
 <script>
+	var QQMapWX = require("../../lib/qqmap-wx-jssdk.min.js");
+	var qqmapsdk;
 	export default {
 		data() {
 			return {
@@ -25,14 +27,19 @@
 				showImage: false
 			}
 		},
+		onLoad: function() {
+			qqmapsdk = new QQMapWX({
+				key: '6WNBZ-YHER3-VDR3T-YSHJ6-3JHUT-5BFIC'
+			})
+		},
 		methods: {
-			clickBtn:function(){
+			clickBtn: function() {
 				let that = this;
-				if(that.btnText == "拍照"){
+				if (that.btnText == "拍照") {
 					let ctx = uni.createCameraContext()
 					ctx.takePhoto({
-						quality:"high",
-						success:function(resp){
+						quality: "high",
+						success: function(resp) {
 							console.log(resp.tempImagePath)
 							that.photoPath = resp.tempImagePath
 							that.showImage = true
@@ -40,15 +47,56 @@
 							that.btnText = "签到"
 						}
 					})
-					
-				}
-				else{ // TODO：签到功能
-					
+				} else { // TODO：签到功能
+					uni.showLoading({
+						title: "签到中"
+					})
+					setTimeout(function() {
+						uni.hideLoading()
+					}, 10000)
+
+					uni.authorize({
+						scope: "scope.userLocation",
+						success() {
+							uni.getLocation({
+								type: "wgs84",
+								success: function(resp) {
+									let latitude = resp.latitude
+									let longitude = resp.longitude
+									console.log(latitude)
+									console.log(longitude)
+
+									qqmapsdk.reverseGeocoder({
+										location: {
+											latitude: latitude,
+											longitude: longitude
+										},
+										success: function(resp) {
+											console.log(resp.result)
+											let address = resp.result.address
+											let addressComponent = resp.result.address_component
+											let nation = addressComponent.nation;
+											let province = addressComponent.province;
+											let city = addressComponent.city;
+											let district = addressComponent.district;
+										},
+										fail: function(error) {
+											console.error(error);
+											uni.showToast({
+												icon: "none",
+												title: "获取定位失败"
+											})
+										}
+									})
+
+								}
+							})
+						}
+					})
 				}
 			},
-			
-			retakePic:function(){
-				let that=this;
+			retakePic: function() {
+				let that = this;
 				that.showImage = false
 				that.showCamera = true
 				that.btnText = "拍照"

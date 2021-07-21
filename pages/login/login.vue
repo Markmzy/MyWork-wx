@@ -33,15 +33,16 @@
 						that.ajax(that.url.login, "POST", {
 							"code": code
 						}, function(resp) {
+							console.log(resp.data.token)
 							let permissions = resp.data.permissions
 							uni.setStorageSync("permissions", permissions)
 						})
-						
+
 						uni.showToast({
 							title: "登陆成功",
 							duration: 1500,
-							success:function(){
-								setTimeout(function(){
+							success: function() {
+								setTimeout(function() {
 									//TODO: 跳转页面
 									uni.switchTab({
 										url: '../index/index'
