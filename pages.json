@@ -54,8 +54,24 @@
 				"navigationBarTitleText": "人脸签到",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/checkin_result/checkin_result",
+			"style": {
+				"navigationBarTitleText": "签到结果",
+				"enablePullDownRefresh": false
+			}
 		}
-	],
+	    ,{
+            "path" : "pages/my_checkin/my_checkin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "MyWork企业在线办公系统",

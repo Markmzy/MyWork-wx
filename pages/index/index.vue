@@ -38,7 +38,7 @@
 			<view class="nav-row">
 				<view class="nav" @tap="toPage('在线签到', '../checkin/checkin')">
 					<image mode="widthFix" src="../../static/nav-1.png" class="icon"></image>
-					<text class="name">在线签到</text>
+					<text class="name">人脸签到</text>
 				</view>
 				<view class="nav">
 					<image src="../../static/nav-2.png" mode="widthFix" class="icon"></image>

@@ -31,21 +31,21 @@ export default {
 			key: '6WNBZ-YHER3-VDR3T-YSHJ6-3JHUT-5BFIC'
 		});
 	},
-	// onShow: function() {
-	// 	let that = this;
-	// 	that.ajax(that.url.validCanCheckIn, 'GET', null, function(resp) {
-	// 		let msg = resp.data.msg;
-	// 		if (msg != '可以考勤') {
-	// 			that.canCheckin = false;
-	// 			setTimeout(function() {
-	// 				uni.showToast({
-	// 					icon: 'none',
-	// 					title: msg
-	// 				});
-	// 			}, 1000);
-	// 		}
-	// 	});
-	// },
+	onShow: function() {
+		let that = this;
+		that.ajax(that.url.validCanCheckIn, 'GET', null, function(resp) {
+			let msg = resp.data.msg;
+			if (msg != '可以考勤') {
+				that.canCheckin = false;
+				setTimeout(function() {
+					uni.showToast({
+						icon: 'none',
+						title: msg
+					});
+				}, 1000);
+			}
+		});
+	},
 	methods: {
 		clickBtn: function() {
 			let that = this;
@@ -155,9 +155,9 @@ export default {
 												uni.showToast({
 													title: '签到成功',
 													complete: function() {
-														// uni.navigateTo({
-														// 	url: '../checkin_result/checkin_result'
-														// });
+														uni.redirectTo({
+															url: '../checkin_result/checkin_result'
+														});
 													}
 												});
 											}
