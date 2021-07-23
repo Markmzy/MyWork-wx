@@ -9,15 +9,15 @@
 			<view class="sub-title"><text>本月签到</text></view>
 			<view class="report">
 				<view class="column green">
-					<text class="column-title">正常</text>
+					<text class="column-title">正常天数</text>
 					<text class="number">{{ normal }}</text>
 				</view>
 				<view class="column orange">
-					<text class="column-title">迟到</text>
+					<text class="column-title">迟到天数</text>
 					<text class="number">{{ late }}</text>
 				</view>
 				<view class="column red">
-					<text class="column-title">缺勤</text>
+					<text class="column-title">缺勤天数</text>
 					<text class="number">{{ absent }}</text>
 				</view>
 			</view>
@@ -57,7 +57,7 @@ export default {
 			that.list.length = 0;
 			that.ajax(that.url.searchMonthCheckIn, 'POST', { year: year, month: month }, function(resp) {
 				for (let one of resp.data.list) {
-					if (one.status != null && one.status != '') {
+					if (one.status != null && (one.type == '节假日' || one.status != '')) {
 						let color = '';
 						if (one.status == '正常') {
 							color = 'green';
@@ -65,10 +65,21 @@ export default {
 							color = 'orange';
 						} else if (one.status == '缺勤') {
 							color = 'red';
+						} else if (one.type == '节假日') {
+							color = 'gray';
 						}
+						
+						let info = '';
+						if(one.type == '节假日'){
+							info = '休息'
+						}
+						else{
+							info = one.status;
+						}
+						
 						that.list.push({
 							date: one.date,
-							info: one.status,
+							info: info,
 							color: color
 						});
 					}

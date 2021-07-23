@@ -10,7 +10,7 @@ const app = new Vue({
 })
 app.$mount()
 
-let baseUrl = "http://localhost:8080/mywork"
+let baseUrl = "http://192.168.0.100:8080/mywork"
 Vue.prototype.url = {
 	register: baseUrl + "/user/register",
 	login: baseUrl + "/user/login",
@@ -19,7 +19,12 @@ Vue.prototype.url = {
 	validCanCheckIn: baseUrl + "/checkin/validCanCheckIn",
 	searchTodayCheckIn: baseUrl + "/checkin/searchTodayCheckIn",
 	searchUserSummary: baseUrl + "/user/searchUserSummary",
-	searchMonthCheckIn: baseUrl + "/checkin/searchMonthCheckIn"
+	searchMonthCheckIn: baseUrl + "/checkin/searchMonthCheckIn",
+	refreshMessage: baseUrl + "/message/refreshMessage",
+	searchMessageByPage: baseUrl + "/message/searchMessageByPage",
+	searchMessageById: baseUrl + "/message/searchMessageById",
+	updateUnreadMessage: baseUrl + "/message/updateUnreadMessage",
+	deleteMessageRefById: baseUrl + "/message/deleteMessageRefById",
 }
 
 Vue.prototype.ajax = function(url, method, data, fun) {

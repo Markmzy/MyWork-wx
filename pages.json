@@ -1,9 +1,8 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "欢迎使用MyWork",
+				"navigationBarTitleText": "用户登陆",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -17,7 +16,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -51,7 +51,7 @@
 		{
 			"path": "pages/checkin/checkin",
 			"style": {
-				"navigationBarTitleText": "人脸签到",
+				"navigationBarTitleText": "在线签到",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -61,12 +61,27 @@
 				"navigationBarTitleText": "签到结果",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/my_checkin/my_checkin",
+			"style": {
+				"navigationBarTitleText": "我的考勤",
+				"enablePullDownRefresh": false
+			}
 		}
 	    ,{
-            "path" : "pages/my_checkin/my_checkin",
+            "path" : "pages/message_list/message_list",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "消息列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/message/message",
+            "style" :                                                                                    
+            {
                 "enablePullDownRefresh": false
             }
             

@@ -14,6 +14,7 @@
 				'circle-green':weeks.extraInfo.color=='green',
 				'circle-red':weeks.extraInfo.color=='red',
 				'circle-orange':weeks.extraInfo.color=='orange',
+				'circle-gray':weeks.extraInfo.color=='gray',
 			}"></text>
 			<text class="uni-calendar-item__weeks-box-text" :class="{
 				'uni-calendar-item--isDay-text': weeks.isDay,
@@ -53,6 +54,7 @@
 				'text-green':weeks.extraInfo.color=='green',
 				'text-red':weeks.extraInfo.color=='red',
 				'text-orange':weeks.extraInfo.color=='orange',
+				'text-gray':weeks.extraInfo.color=='gray',
 				}">{{weeks.extraInfo.info}}</text>
 		</view>
 	</view>
@@ -156,6 +158,9 @@
 	.circle-orange{
 		background-color: orange;
 	}
+	.circle-gray{
+		background-color: #979797;
+	}
 	.text-green{
 		color: green !important;
 	}
@@ -164,6 +169,9 @@
 	}
 	.text-orange{
 		color: orange !important;
+	}
+	.text-gray{
+		color: #979797 !important;
 	}
 
 	.uni-calendar-item--disable {
@@ -176,9 +184,9 @@
 	}
 
 	.uni-calendar-item--isDay {
-		background-color: $uni-color-primary;
+		background-color: #cccccc;
 		opacity: 0.8;
-		color: #fff;
+		color: $uni-color-primary;
 	}
 
 	.uni-calendar-item--extra {
@@ -187,14 +195,14 @@
 	}
 
 	.uni-calendar-item--checked {
-		background-color: $uni-color-primary;
-		color: #fff;
+		background-color: #cccccc;
+		color: #000;
 		opacity: 0.8;
 	}
 
 	.uni-calendar-item--multiple {
-		background-color: $uni-color-primary;
-		color: #fff;
+		background-color:  #cccccc;
+		color: #000;
 		opacity: 0.8;
 	}
 	.uni-calendar-item--before-checked {
