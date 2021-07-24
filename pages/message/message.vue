@@ -32,9 +32,7 @@ export default {
 	},
 	onShow: function() {
 		let that = this;
-		uni.setNavigationBarTitle({
-			title: '系统通知'
-		});
+		//TODO: 发件人
 		that.ajax(that.url.searchMessageById, 'POST', { id: that.id }, function(resp) {
 			let result = resp.data.result;
 			that.sendTime = result.sendTime;
@@ -62,8 +60,8 @@ export default {
 									setTimeout(function() {
 										uni.navigateBack({
 											delta:1
-										}, 1000);
-									});
+										})
+									}, 1000);
 								}
 							});
 						});

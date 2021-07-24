@@ -44,7 +44,7 @@
 		{
 			"path": "pages/meeting_list/meeting_list",
 			"style": {
-				"navigationBarTitleText": "会议",
+				"navigationBarTitleText": "会议列表",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -68,25 +68,40 @@
 				"navigationBarTitleText": "我的考勤",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/message_list/message_list",
+			"style": {
+				"navigationBarTitleText": "消息列表",
+				"enablePullDownRefresh": true
+			}
+
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息详情",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/role_list/role_list",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/user_info/user_info",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/message_list/message_list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "消息列表",
-                "enablePullDownRefresh": true
-            }
-            
-        }
-        ,{
-            "path" : "pages/message/message",
-            "style" :                                                                                    
-            {
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "MyWork企业在线办公系统",
