@@ -86,17 +86,17 @@
 
 		},
 		{
-			"path": "pages/role_list/role_list",
+			"path": "pages/meeting/meeting",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "会议详情",
 				"enablePullDownRefresh": false
 			}
 
 		},
 		{
-			"path": "pages/user_info/user_info",
+			"path": "pages/members/members",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "选择成员",
 				"enablePullDownRefresh": false
 			}
 
