@@ -71,6 +71,11 @@ export default {
 		that.loadMeetingList(that);
 	},
 	methods: {
+		toMeetingPage: function(id,opt){
+			uni.navigateTo({
+				url: "../meeting/meeting?id=" + id + "&opt=" + opt
+			})
+		},
 		loadMeetingList: function(ref) {
 			let data = {
 				pageNum: ref.pageNum,

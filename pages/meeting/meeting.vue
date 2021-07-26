@@ -34,13 +34,13 @@
 					<text v-if="!canEdit" class="value">{{ typeArray[typeIndex] }}</text>
 				</view>
 				<view class="item" v-if="typeArray[typeIndex] == '线下会议'" @tap="editPlace">
-					<view class="key">地点</view>
+					<view class="key">会议地点</view>
 					<view class="value">{{ place }}</view>
 				</view>
-			</view>
-
-			<view @tap="editDesc">
-				<text class="desc">{{ desc }}</text>
+				<view class="item" @tap="editDesc">
+					<view class="key">会议内容</view>
+					<view class="value">{{ desc }}</view>
+				</view>
 			</view>
 		</view>
 
@@ -66,7 +66,15 @@
 </template>
 
 <script>
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue';
+import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue';
 export default {
+	components: {
+		uniPopup,
+		uniPopupMessage,
+		uniPopupDialog
+	},
 	data() {
 		return {
 			opt: null,
@@ -80,10 +88,45 @@ export default {
 			typeArray: ['线上会议', '线下会议'],
 			typeIndex: 0,
 			place: '',
-			desc: '会议内容',
+			desc: '',
 			members: [],
 			instanceId: null
 		};
+	},
+	onLoad: function(options) {
+		this.id = options.id;
+		this.opt = options.opt;
+	},
+	onShow: function() {
+		let that = this;
+		let pages = getCurrentPages(); //页面栈
+		let currPage = pages[pages.length - 1]; //当前页
+
+		//不是从Member页面返回的
+		if (!currPage.hasOwnProperty('finishMembers') || !currPage.finishMembers) {
+			if (that.opt == 'insert') {
+				let now = new Date();
+				now.setTime(now.getTime() + 30 * 60 * 1000);
+				that.date = now.format('yyyy-MM-dd');
+				that.start = now.format('hh:mm');
+				now.setTime(now.getTime() + 60 * 60 * 1000);
+				that.end = now.format('hh:mm');
+			} else if (that.opt == 'edit') {
+			}
+		} else {
+			//是从Member页面返回的
+			let members = [];
+			//把数组中的字符串转换成数字
+			for (let one of currPage.members) {
+				members.push(Number(one));
+			}
+
+			// 查询数据
+			that.ajax(that.url.searchMembers, 'POST', { members: JSON.stringify(members) }, function(resp) {
+				let result = resp.data.result;
+				that.members = result;
+			});
+		}
 	},
 	methods: {
 		toMembersPage: function() {
@@ -93,6 +136,102 @@ export default {
 			}
 			uni.navigateTo({
 				url: '../members/members?members=' + array.join(',')
+			});
+		},
+		dateChange: function(e) {
+			this.date = e.detail.value;
+		},
+		startChange: function(e) {
+			this.start = e.detail.value;
+		},
+		endChange: function(e) {
+			this.end = e.detail.value;
+		},
+		typeChange: function(e) {
+			this.typeIndex = e.detail.value;
+		},
+		editPlace: function() {
+			if (!this.canEdit) {
+				return;
+			}
+
+			this.$refs.popupPlace.open();
+		},
+		finishPlace: function(done, value) {
+			if (value != null && value != '') {
+				this.place = value;
+				done();
+			} else {
+				uni.showToast({
+					icon: 'none',
+					title: '会议地点不能为空'
+				});
+			}
+		},
+		editDesc: function() {
+			if (!this.canEdit) {
+				return;
+			}
+			this.$refs.popupDesc.open();
+		},
+		finishDesc: function(done, value) {
+			if (value != null && value != '') {
+				this.desc = value;
+				done();
+			} else {
+				uni.showToast({
+					icon: 'none',
+					title: '会议内容不能为空'
+				});
+			}
+		},
+		save: function() {
+			let that = this;
+			let array = [];
+			for (let one of that.members) {
+				array.push(one.id);
+			}
+
+			//验证
+			if (
+				that.checkBlank(that.title, '会议题目') ||
+				that.checkValidStartAndEnd(that.start, that.end) ||
+				((that.typeIndex == '1' && that.checkBlank(that.place, '会议地点')) || that.checkBlank(that.desc, '会议内容') || array.length == 0)
+			) {
+				return;
+			}
+
+			let data = {
+				title: that.title,
+				date: that.date,
+				start: that.start,
+				end: that.end,
+				type: Number(that.typeIndex) + 1,
+				members: JSON.stringify(array),
+				desc: that.desc,
+				id: that.id,
+				instanceId: that.instanceId
+			};
+
+			if (that.typeIndex == '1') {
+				data.place = that.place;
+			}
+
+			let url;
+			if (that.opt == 'insert') {
+				url = that.url.insertMeeting;
+			} else if (that.opt == 'edit') {
+				url = that.url.updateMeeting;
+			}
+			that.ajax(url, 'POST', data, function(resp) {
+				uni.showToast({
+					title: '保存成功',
+					complete: function() {
+						setTimeout(function() {
+							uni.navigateBack({});
+						}, 1500);
+					}
+				});
 			});
 		}
 	}
