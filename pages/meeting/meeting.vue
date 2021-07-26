@@ -112,6 +112,22 @@ export default {
 				now.setTime(now.getTime() + 60 * 60 * 1000);
 				that.end = now.format('hh:mm');
 			} else if (that.opt == 'edit') {
+				that.ajax(that.url.searchMeetingById, 'POST', { id: that.id }, function(resp) {
+					let result = resp.data.result;
+					that.uuid = result.uuid;
+					that.title = result.title;
+					that.date = result.date;
+					that.start = result.start;
+					that.end = result.end;
+					that.typeIndex = result.type - 1;
+					that.place = result.place;
+					let desc = result.desc;
+					if (desc != null && desc != '') {
+						that.desc = desc;
+					}
+					that.members = result.members;
+					that.instanceId = result.instanceId;
+				});
 			}
 		} else {
 			//是从Member页面返回的

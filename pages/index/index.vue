@@ -8,7 +8,7 @@
 			<view class="notify-content">您有{{ unreadRows }}条未读消息</view>
 			<image src="../../static/icon-2.png" mode="widthFix" class="more-icon"></image>
 		</view>
-		
+
 		<swiper circular="true" autoplay="true" interval="5000" duration="500" indicator-dots="indicatorDots" class="swiper">
 			<swiper-item><image mode="widthFix" src="https://zhiyuem1-1257317681.cos.ap-shenzhen-fsi.myqcloud.com/swiper/1.jpeg"></image></swiper-item>
 			<swiper-item><image mode="widthFix" src="https://zhiyuem1-1257317681.cos.ap-shenzhen-fsi.myqcloud.com/swiper/2.jpeg"></image></swiper-item>
@@ -16,14 +16,14 @@
 			<swiper-item><image mode="widthFix" src="https://zhiyuem1-1257317681.cos.ap-shenzhen-fsi.myqcloud.com/swiper/4.jpeg"></image></swiper-item>
 			<swiper-item><image mode="widthFix" src="https://zhiyuem1-1257317681.cos.ap-shenzhen-fsi.myqcloud.com/swiper/5.jpg"></image></swiper-item>
 		</swiper>
-	
+
 		<view class="nav-container">
 			<view class="nav-row">
 				<view class="nav" @tap="toPage('在线签到', '../checkin/checkin')">
 					<image mode="widthFix" src="../../static/nav-1.png" class="icon"></image>
 					<text class="name">在线签到</text>
 				</view>
-				<view class="nav" @tap="toPage('在线审批', '../approval_list/approval_list')">
+				<view class="nav">
 					<image src="../../static/nav-2.png" mode="widthFix" class="icon"></image>
 					<text class="name">在线审批</text>
 				</view>
@@ -73,7 +73,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<uni-popup ref="popupMsg" type="top"><uni-popup-message type="success" :message="'接收到' + lastRows + '条消息'" :duration="3000" /></uni-popup>
 	</view>
 </template>
@@ -114,7 +114,7 @@ export default {
 	},
 	onShow: function() {
 		let that = this;
-		
+
 		//更新数据
 		that.ajax(that.url.refreshMessage, 'GET', null, function(resp) {
 			that.unreadRows = resp.data.unreadRows;
@@ -123,7 +123,7 @@ export default {
 				uni.$emit('showMessage');
 			}
 		});
-		
+
 		//每5秒再次更新
 		that.timer = setInterval(function() {
 			that.ajax(that.url.refreshMessage, 'GET', null, function(resp) {

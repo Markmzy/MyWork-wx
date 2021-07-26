@@ -60,11 +60,24 @@
 			.red {
 				color: #ff4234;
 			}
+			.green {
+				color: #00cb04;
+			}
 		}
 		.right {
-			text {
-				font-size: 32rpx;
-				color: @background-color;
+			display: flex;
+			.update {
+				margin-right: 20rpx;
+				text {
+					font-size: 32rpx;
+					color: @background-color;
+				}
+			}
+			.delete {
+				text {
+					font-size: 32rpx;
+					color: #ff4234;
+				}
 			}
 		}
 	}
@@ -82,8 +95,7 @@
 			font-size: 30rpx;
 			padding: 10rpx 0;
 			.timer,
-			.creator,
-			{
+			.creator {
 				margin-right: 35rpx;
 				display: flex;
 				.icon {

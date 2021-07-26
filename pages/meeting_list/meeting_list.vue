@@ -14,10 +14,21 @@
 						<image src="../../static/icon-11.png" mode="widthFix" class="icon" v-if="meeting.type == '线上会议'"></image>
 						<image src="../../static/icon-12.png" mode="widthFix" class="icon" v-if="meeting.type == '线下会议'"></image>
 						<text>{{ meeting.type }}</text>
-						<text :class="meeting.status == '未开始' ? 'blue' : 'red'">（{{ meeting.status }}）</text>
+						<text :class="meeting.status == '已结束' ? 'red' : meeting.status == '未开始' ? 'blue' : 'green'">（{{ meeting.status }}）</text>
 					</view>
-					<view class="right" @tap="toMeetingPage(meeting.id, 'edit')" v-if="checkPermission(['ROOT', 'MEETING:UPDATE']) && meeting.status == '未开始'">
-						<text>编辑</text>
+
+					<view class="right">
+						<view class="update" @tap="toMeetingPage(meeting.id, 'edit')" v-if="checkPermission(['ROOT', 'MEETING:UPDATE']) && meeting.status == '未开始'">
+							<text>编辑</text>
+						</view>
+
+						<view
+							class="delete"
+							@tap="deleteById(meeting.id, meeting.date, meeting.start)"
+							v-if="checkPermission(['ROOT', 'MEETING:DELETE']) && meeting.status == '未开始'"
+						>
+							<text>删除</text>
+						</view>
 					</view>
 				</view>
 
@@ -71,10 +82,10 @@ export default {
 		that.loadMeetingList(that);
 	},
 	methods: {
-		toMeetingPage: function(id,opt){
+		toMeetingPage: function(id, opt) {
 			uni.navigateTo({
-				url: "../meeting/meeting?id=" + id + "&opt=" + opt
-			})
+				url: '../meeting/meeting?id=' + id + '&opt=' + opt
+			});
 		},
 		loadMeetingList: function(ref) {
 			let data = {
@@ -101,10 +112,12 @@ export default {
 								meeting.type = '线下会议';
 							}
 
-							if (meeting.status == 3) {
+							if (meeting.status == 1) {
 								meeting.status = '未开始';
-							} else if (meeting.status == 4) {
+							} else if (meeting.status == 2) {
 								meeting.status = '进行中';
+							} else if (meeting.status == 3) {
+								meeting.status = '已结束';
 							}
 						}
 						if (ref.list.length > 0) {
@@ -117,6 +130,47 @@ export default {
 						} else {
 							ref.list.push(one);
 						}
+					}
+				}
+			});
+		},
+		deleteById: function(id, date, start) {
+			let now = new Date();
+			let meetingDate = new Date(date + ' ' + start + ':00');
+			if (now.getTime() >= meetingDate.getTime() - 20 * 60 * 1000) {
+				uni.showToast({
+					icon: 'none',
+					title: '还有20分钟会议就开始了,无法删除'
+				});
+				return;
+			}
+			let that = this;
+			uni.vibrateShort({});
+			uni.showModal({
+				title: '提示信息',
+				content: '是否删除这个会议？',
+				success: function(resp) {
+					if (resp.confirm) {
+						let data = {
+							id: id
+						};
+						that.ajax(that.url.deleteMeetingById, 'POST', data, function(resp) {
+							uni.showToast({
+								icon: 'success',
+								title: '删除成功',
+								complete: function() {
+									setTimeout(function() {
+										that.page = 1;
+										that.isLastPage = false;
+										uni.pageScrollTo({
+											scrollTop: '0'
+										});
+										that.list = [];
+										that.loadMeetingList(that);
+									}, 2000);
+								}
+							});
+						});
 					}
 				}
 			});

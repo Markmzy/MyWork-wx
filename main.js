@@ -29,7 +29,9 @@ Vue.prototype.url = {
 	searchUserGroupByDept: baseUrl + "/user/searchUserGroupByDept",
 	searchMembers: baseUrl + "/user/searchMembers",
 	insertMeeting: baseUrl + "/meeting/insertMeeting",
-	updareMeeting: baseUrl + "/meeting/updateMeeting"
+	searchMeetingById: baseUrl + "/meeting/searchMeetingById",
+	updateMeeting: baseUrl + "/meeting/updateMeeting",
+	deleteMeetingById: baseUrl + "/meeting/deleteMeetingById"
 }
 
 Vue.prototype.ajax = function(url, method, data, fun) {
